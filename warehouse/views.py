@@ -1,12 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 from .models import Product, Material, ProductMaterial, Warehouse
 from .serializers import ProductSerializer, MaterialSerializer, ProductMaterialSerializer, WarehouseSerializer
 
 class ProductMaterialsAPIView(APIView):
     def get(self, request, product_id, qty):
-        product = Product.objects.get(id=product_id)
+        # Mahsulotni olish, agar topilmasa 404 qaytarish
+        product = get_object_or_404(Product, id=product_id)
         product_materials = ProductMaterial.objects.filter(product=product)
 
         result = {
@@ -53,7 +55,6 @@ class ProductMaterialsAPIView(APIView):
                 })
 
         return Response(result)
-
 
 
 class ProductViewSet(viewsets.ModelViewSet):

@@ -24,9 +24,8 @@ class ProductMaterialSerializer(serializers.ModelSerializer):
 
 
 class WarehouseSerializer(serializers.ModelSerializer):
-    material = MaterialSerializer()
+    material = MaterialSerializer(read_only=True)
 
     class Meta:
         model = Warehouse
         fields = ['material', 'remainder', 'price']
-
